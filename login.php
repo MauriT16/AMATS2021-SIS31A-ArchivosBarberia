@@ -1,52 +1,34 @@
 <?php
+session_start(); // Iniciando sesion
+$error=''; // Variable para almacenar el mensaje de error
+if (isset($_POST['submit'])) {
+if (empty($_POST['username']) || empty($_POST['password'])) {
+$error = "Username or Password is invalid";
+}
+else
+{
+// Define $username y $password
+$username=$_POST['username'];
+$password=$_POST['password'];
+// Estableciendo la conexion a la base de datos
+include("config/db.php");//Contienen las variables, el servidor, usuario, contraseña y nombre  de la base de datos
+include("config/conexion.php");//Contiene de conexion a la base de datos
 
-  session_start();
+// Para proteger de Inyecciones SQL 
+$username    = mysqli_real_escape_string($con,(strip_tags($username,ENT_QUOTES)));
+$password =  sha1($password);//Algoritmo de encriptacion de la contraseña http://php.net/manual/es/function.sha1.php
 
-  if (isset($_SESSION['user_id'])) {
-    header('Location: /php-login');
-  }
-  require 'database.php';
-
-  if (!empty($_POST['email']) && !empty($_POST['password'])) {
-    $records = $conn->prepare('SELECT id, email, password FROM users WHERE email = :email');
-    $records->bindParam(':email', $_POST['email']);
-    $records->execute();
-    $results = $records->fetch(PDO::FETCH_ASSOC);
-
-    $message = '';
-
-    if (count($results) > 0 && password_verify($_POST['password'], $results['password'])) {
-      $_SESSION['user_id'] = $results['id'];
-      header("Location: /php-login");
-    } else {
-      $message = 'Sorry, those credentials do not match';
-    }
-  }
-
+$sql = "SELECT email, password FROM login WHERE email = '" . $username . "' and password='".$password."';";
+$query=mysqli_query($con,$sql);
+$counter=mysqli_num_rows($query);
+if ($counter==1){
+		$_SESSION['login_user_sys']=$username; // Iniciando la sesion
+		header("location: profile.php"); // Redireccionando a la pagina profile.php
+	
+	
+} else {
+$error = "El correo electrónico o la contraseña es inválida.";	
+}
+}
+}
 ?>
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
-  </head>
-  <body>
-    <?php require 'partials/header.php' ?>
-
-    <?php if(!empty($message)): ?>
-      <p> <?= $message ?></p>
-    <?php endif; ?>
-
-    <h1>Login</h1>
-    <span>or <a href="signup.php">SignUp</a></span>
-
-    <form action="login.php" method="POST">
-      <input name="email" type="text" placeholder="Enter your email">
-      <input name="password" type="password" placeholder="Enter your Password">
-      <input type="submit" value="Submit">
-    </form>
-  </body>
-</html>
