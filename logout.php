@@ -1,10 +1,7 @@
-  
 <?php
-  session_start();
-
-  session_unset();
-
-  session_destroy();
-
-  header('Location: /php-login');
+session_start();
+if(session_destroy()) // Destruye todas las sesiones
+{
+header("Location: index.php"); // Redireccionando a la pagina index.php
+}
 ?>
