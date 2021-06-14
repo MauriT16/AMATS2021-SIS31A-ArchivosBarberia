@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-05-2021 a las 19:50:26
+-- Tiempo de generación: 13-06-2021 a las 23:17:54
 -- Versión del servidor: 10.1.8-MariaDB
 -- Versión de PHP: 5.6.14
 
@@ -38,6 +38,15 @@ CREATE TABLE `eventos` (
   `final_normal` varchar(50) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `eventos`
+--
+
+INSERT INTO `eventos` (`id`, `title`, `body`, `url`, `class`, `start`, `end`, `inicio_normal`, `final_normal`) VALUES
+(1, 'Mauricio Tejada', 'y cejas\r\n', 'http://localhost:8080/calendario/descripcion_evento.php?id=1', 'event-info', '1623687720000', '1623687300000', '14/06/2021 10:22', '14/06/2021 10:15'),
+(2, 'Carlos Martinez', 'y corte', 'http://localhost:8080/calendario/descripcion_evento.php?id=2', 'event-warning', '1623763560000', '1623767160000', '15/06/2021 7:26', '15/06/2021 8:26'),
+(3, 'Erick Tobar', 'solo servicio especial reservado', 'http://localhost:8080/calendario/descripcion_evento.php?id=3', 'event-special', '1623857400000', '1623864600000', '16/06/2021 9:30', '16/06/2021 11:30');
+
 -- --------------------------------------------------------
 
 --
@@ -56,7 +65,7 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`id`, `email`, `password`) VALUES
 (1, 'admin@admin.com', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
-(2, 'marvin@gmail.com', '12345');
+(2, 'mauri@gmail.com', '12345');
 
 --
 -- Índices para tablas volcadas
@@ -82,7 +91,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `login`
 --
